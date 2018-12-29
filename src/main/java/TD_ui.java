@@ -1,4 +1,5 @@
 
+import java.util.Random;
 import java.util.Set;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -22,17 +24,57 @@ public class TD_ui extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        Label infotext= new Label("Write a number between 0 and 9 in order to get a task");
-        TextField userfiled = new TextField("Write a number between 0 and 9 here");
+        Label infotext= new Label("Write a number between 0 and 5 and press *Submit* in order to get a task");
+        infotext.setAlignment(Pos.CENTER);
+        
+        TextField userfiled = new TextField("Write a number between 0 and 5 here");
+        userfiled.setMaxWidth(300);
         Label task = new Label();
+        
+        Button button = new Button("Submit!");
+        
         VBox boxie = new VBox();
-        boxie.getChildren().addAll(infotext, userfiled,task);
+        boxie.getChildren().addAll(infotext, userfiled,button,task);
         boxie.setAlignment(Pos.CENTER);
         boxie.setSpacing(50);
         
-        Scene scene = new Scene(boxie,400,400);
+         button.setOnAction (e ->{
+             try{
+             Random rande = new Random();
+             int userinput = Integer.valueOf(userfiled.getText());
+           
+             if(userinput >5||userinput<0){
+                task.setText("Could not give action, input was not between 0 and 5!");
+            }
+             else if(userinput==rande.nextInt(6)){
+                task.setText("Your task:\nGive your partner massage");
+            }
+            else if (userinput==rande.nextInt(6)){
+                task.setText("Your task:\nTell your partner something you like about her/him");
+            }
+            
+            else if(userinput==rande.nextInt(6)){
+                task.setText("Your task:\nDo something sensual to your partner");
+            }
+            else if(userinput==rande.nextInt(6)){
+                task.setText("Your task:\nSurprise your partner");
+            }
+            else if(userinput==rande.nextInt(6)){
+                task.setText("Your task:\nGive your partner a kiss!");
+            }
+            else{
+                 task.setText("Your task:\nGive your partner a hug!");
+            }
+             } catch(NumberFormatException el){
+                 task.setText("Could not give action, input was not a number!"); 
+             }
+        });
+        
+        Scene scene = new Scene(boxie,800,400);
+        
         
         stage.setScene(scene);
+        stage.setTitle("Romantic ActionGenerator");
         stage.show();
     }
     
